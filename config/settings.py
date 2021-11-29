@@ -11,8 +11,6 @@ from pathlib import Path
 import os
 import django_heroku
 
-django_heroku.settings(locals())
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -154,3 +152,4 @@ EMAIL_HOST_PASSWORD = 'srl210731'
 # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
 GRAPH_DIR = os.path.join(STATICFILES_DIRS[0], "graphs")
+django_heroku.settings(locals())

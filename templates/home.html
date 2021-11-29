@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Welcome to SRL++ annotation tools!</h2>
+{% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    <p><a href="{% url 'catalogue_browse' path='' mode=''%}">Published Catalogue</a></p>
+    <p><a href="{% url 'generate_sg'%}">Generate Semantic Graph</a></p>
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+    <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
+    <p><a href="{% url 'submit' %}">Submit My Annotation</a></p>
+    <p><a href="{% url 'submission_status' %}">Check My Submission Status</a></p>
+
+{% else %}
+    <p>You are not logged in</p>
+    <p><a href="{% url 'login' %}">Log In</a></p>
+    <p><a href="{% url 'signup' %}">Sign Up</a></p>
+    <p><a href="{% url 'password_reset' %}">Forgot Password</a></p>
+    <p> Browse <a href="{% url 'catalogue_browse' path='' mode=''%}"> Published Catalogue </a> as a guest</p>
+    <p><a href="{% url 'generate_sg'%}">Generate Semantic Graph</a> as a guest</p>
+{% endif %}
+{% endblock %}

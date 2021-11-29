@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check Submission Status</title>
+</head>
+<body>
+    {% if documents %}
+        <table>
+            <tr>
+                <td>
+                    <b>Submitted annotations</b>
+                </td>
+
+                <td>
+                    <b>Status</b>
+                </td>
+            </tr>
+
+            {% for document in documents %}
+                <tr>
+                    <td>
+                        {{ document.0 }}
+                    </td>
+                    <td>
+                        {{ document.1 }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        No submission from you yet.
+    {% endif %}
+</body>
+</html>

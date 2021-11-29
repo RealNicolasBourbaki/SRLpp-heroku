@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'catalogue/test.css'%}">
+<html lang="en">
+<body>
+    <h1>Concept</h1>
+        <h2>Info</h2>
+            <ul>
+                <li>
+                    <p>Concept ID: {{ concept_id }}</p>
+                </li>
+                <li>
+                    <p>Name: {{ name }}</p>
+                </li>
+                <li>
+                    <p>Version: {{ version }}</p>
+                </li>
+                {% if framenet_link %}
+                    <li>
+                        <p>FrameNet Link: <a href={{ framenet_link }}>Link to FrameNet<a/></p>
+                    </li>
+                {% endif %}
+            </ul>
+        <h2>Roles</h2>
+            <h3>--  Core Roles</h3>
+                <ul>
+                    {% for core_role in core_roles %}
+                        <li>
+                            <p>{{ core_role }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            <h3>--  Non-core Roles</h3>
+                <ul>
+                    {% for non_core_role in non_core_roles %}
+                        <li>
+                            <p>{{ non_core_role }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+        <h2>Description</h2>
+            <p>{{ description }}</p>
+        <h2>Super Classes</h2>
+            {% if super_classes %}
+                <ul>
+                    {% for super_class in super_classes %}
+                        <li>
+                            <p>{{ super_class }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>None</p>
+            {% endif %}
+        <h2>Examples</h2>
+            <ul>
+                {% for example in examples %}
+                    <li>
+                        <p>{{ example }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+</body>
+</html>

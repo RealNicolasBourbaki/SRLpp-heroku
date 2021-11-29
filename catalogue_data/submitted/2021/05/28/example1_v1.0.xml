@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<root 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="example_xml_NW.xsd"
+>
+    <concept>
+        <info id="NW-20210322-1" name="IsA" version="1.0"/>
+		<roles>
+			<coreRoles>
+                <coreRole roleId="A">A</coreRole>
+                <coreRole roleId="B">B</coreRole>
+            </coreRoles>
+            <nonCoreRoles>
+                <nonCoreRole>Degree</nonCoreRole>
+            </nonCoreRoles>
+        </roles>
+		<description>Describing the equivalent relation between object A and B.</description>
+		<superClasses>
+			<class>Action</class>
+		</superClasses>
+        <examples>
+            <example>At the bottom of the well is a brightly-lit room, which appears to be an office of some sort.</example>
+        </examples>
+        <modelling>
+        </modelling>
+    </concept>
+	
+    <semanticGraphs>
+        <semanticGraph graphId="g0">
+            <graphInfo media="text" language="en" sourceLink="" modellingPart="false"></graphInfo>
+            <modelling>
+				<modellingDef>
+					<nodes>
+						<conceptNodes>
+							<node nodeId="n0" root="true" name="IsA" version="1.0"></node> 
+							<node nodeId="n1" name="Office" version="1.0"></node> 
+							<node nodeId="n2" name="Room" version="1.0"></node>
+							<node nodeId="n3" name="Bottom" version="1.0"></node>
+							<node nodeId="n4" name="Lighting" version="1.0"></node>
+							<node nodeId="n5" name="Well" version="1.0"></node>
+						</conceptNodes>
+						<omittedNodes>
+						</omittedNodes>
+						<entityNodes>
+							<node nodeId="n6" name="Probability 85%"></node>
+							<node nodeId="n7" name="5-Level degree 4"></node>
+						</entityNodes>
+						<metaoperatorNodes>
+						</metaoperatorNodes>
+						<pseudoNodes>
+						</pseudoNodes>
+					</nodes>
+					<edges>
+						<edge edgeId="e0" from="n0" to="n1" label="B"></edge>
+						<edge edgeId="e1" from="n0" to="n2" label="A"></edge>
+						<edge edgeId="e2" from="n0" to="n6" label="Degree"></edge>
+						<edge edgeId="e3" from="n4" to="n2" label="Object"></edge>
+						<edge edgeId="e4" from="n4" to="n7" label="Degree"></edge>
+						<edge edgeId="e5" from="n3" to="n4" label="Contained"></edge>
+						<edge edgeId="e6" from="n3" to="n5" label="Container"></edge>
+				</edges>
+				</modellingDef>
+			</modelling>
+        </semanticGraph>
+    </semanticGraphs>
+	
+</root>

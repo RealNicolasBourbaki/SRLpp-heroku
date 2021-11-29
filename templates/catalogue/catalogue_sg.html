@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+{% load custom_tags %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Semantic Graph Generation</title>
+    </head>
+
+    <body>
+        <h1>Semantic Graph Generation</h1>
+        <form action="{% url "generate_sg" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ message }}
+            <p>{{ form.non_field_errors }}</p>
+
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+
+            <p><input type="submit" value="Generate"/></p>
+        </form>
+
+        <a href="{% url 'home' %}">Back to my home page </a>
+
+        <ol>
+            <h1>Semantic Graphs Generation Results</h1>
+            {% for graph in graphs %}
+                <div>
+                    {% get_basename file_path as basename %}
+                    {% with "temp/"|add:basename|add:"/"|add:graph as graph_scource %}
+                        <ul>
+                            <li>
+                                <h3>Semantic graph {{ forloop.counter }}</h3>
+                            </li>
+                            <img src={% static graph_scource %} />
+                        </ul>
+                    {% endwith %}
+                </div>
+            {% endfor %}
+        </ol>
+
+    </body>
+</html>

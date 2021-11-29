@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+{% load custom_tags %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'catalogue/test.css'%}">
+<html>
+    <body>
+
+        <h1>Catalogue</h1>
+        <form action="{% url 'search' %}" method="get">
+            <input name="query" type="text" placeholder="Search for a concept.." >
+            <button type="submit" name="button">Search</button>
+        </form>
+
+        <table>
+            <tr>
+                <td>
+                    <a href="{% url 'home' %}">Back to my home page </a>
+                </td>
+                <td>
+                    {% if search_results %}
+                        <a href="{% url 'search_download' %}">Download all search results</a>
+                    {% else %}
+                        <a href="{% url 'catalogue_download' %}">Download all</a>
+                    {% endif %}
+                </td>
+                <td>
+                    <div>
+                        {% if file_path %}
+                            {% get_link_target file_path as filename %}
+                            {% ifequal mode "text" %}
+                                <button type="submit" name="stylize" onclick="location.href='{% url 'catalogue_browse' filename "style" %}'">Pretty print view</button>
+                            {% else %}
+                                {% ifequal mode "style" %}
+                                    <button type="submit" name="textize" onclick="location.href='{% url 'catalogue_browse' filename "text" %}'">Plain text view</button>
+                                {% endifequal %}
+                            {% endifequal %}
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div style="height: 100%; width: 100%">
+            <table class="">
+                <tr valign="top">
+                    <td>
+                        <div class="column" style="height:100%; overflow: auto">
+                            <ul>
+                                {% for this_key in ordered_keys %}
+                                    {% if this_key in files %}
+                                        {% with link_name_tuple=files|get_item:this_key %}
+                                            <li><a href="{% url 'catalogue_browse' link_name_tuple.0 mode %}"> {{ link_name_tuple.1 }}</a></li>
+                                        {% endwith %}
+                                    {% else %}
+                                        <li><b>{{ this_key }}</b></li>
+                                        <ul>
+                                            {% for sub_link_target, sub_basename in sub_dirs|get_item:this_key%}
+                                                <li><a href="{% url 'catalogue_browse' sub_link_target mode %}"> {{ sub_basename }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% for link_target, basename in search_results %}
+                                    <li><a href="{% url 'search_results' link=link_target query=original_query %}"> {{ basename }}</a></li>
+                                {% endfor %}
+
+                                {% if no_results %}
+                                    <a href="{% url 'catalogue_browse' path='' mode=''%}">{{ no_results.0 }}</a>
+                                {% endif %}
+                            </ul>
+
+                        </div>
+                    </td>
+
+                    <td>
+                        <div style="height:100%; width: 100%; overflow: auto">
+                            {% ifequal mode "text" %}
+                                <pre lang="xml">
+                                    {% for line in file_content %}
+                                        {{ line }}
+                                    {% endfor %}
+                                </pre>
+                            {% endifequal %}
+                        </div>
+
+                        <div>
+                            {% if file_path %}
+                                {% ifequal mode "style" %}
+                                    {% include "catalogue/catalogue_xml.html"%}
+                                    {% include "catalogue/catalogue_graph.html" %}
+                                {% endifequal %}
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            {% if file_path %}
+                                <a href="{% url "download_file" path=file_path %}">Download</a>
+                            {% endif %}
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+
+    </body>
+</html>

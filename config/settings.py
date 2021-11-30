@@ -168,7 +168,8 @@ EMAIL_HOST_PASSWORD = 'srlpp2022'
 EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
 GRAPH_DIR = os.path.join(STATICFILES_DIRS[0], "graphs")
 
+"""
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
-
+"""
 django_heroku.settings(locals())

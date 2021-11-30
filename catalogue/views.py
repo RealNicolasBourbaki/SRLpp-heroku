@@ -226,7 +226,7 @@ def _list_directory(request, status='published'):
             all_dir_info = {}
             ALL_DOWNLOAD_GROUP.clear()
             for entry in _get_all_files_from_db():
-                path = entry.entry_path
+                path = os.path.join(settings.PUBLISHED_CATALOGUE_DIR, entry.entry_path)
                 basename = entry.entry_name
                 subdir = entry.belongs_to_sub_directory
                 sort_key = _make_sort_key(subdir, basename)
@@ -289,7 +289,7 @@ def _search_files(request, query):
     SEARCH_DOWNLOAD_GROUP.clear()
     if len(query.strip()) != 0:
         all_files_info = _get_all_files_from_db()
-        all_files_path_name = [(p.entry_path, p.entry_name)
+        all_files_path_name = [(os.path.join(settings.PUBLISHED_CATALOGUE_DIR, p.entry_path), p.entry_name)
                                for p in all_files_info]
         for file_path, file_basename in all_files_path_name:
             if query in file_path.lower():

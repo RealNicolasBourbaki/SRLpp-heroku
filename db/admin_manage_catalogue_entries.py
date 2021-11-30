@@ -64,13 +64,14 @@ def bulk_addition():
                 continue
             else:
                 file_path = os.path.join(root, file)
+                rel_path = os.path.relpath(file_path, published_catalogue_path)
                 basename = os.path.basename(file_path)
                 info = _get_catalogue_info(file_path)
-                CatalogueEntries.objects.create(entry_path=file_path,
+                CatalogueEntries.objects.create(entry_path=rel_path,
                                                 entry_name=basename,
                                                 entry_version=info['version'],
                                                 belongs_to_sub_directory=_get_subdir(file_path))
-                GraphEntries.objects.create(entry_path=file_path,
+                GraphEntries.objects.create(entry_path=rel_path,
                                             entry_id=info["id"],
                                             entry_name=info["name"],
                                             entry_version=info["version"]

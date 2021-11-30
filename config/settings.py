@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,11 +30,10 @@ MEDIA_ROOT = CATALOGUE_DIR
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '+4x3v5f2_=%ltehp^x1y_+(%fx-+v5^ak#n8kg)&9d-*ns-7rb'
 
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'srlpp.herokuapp.com']
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+DEBUG = False
 
 # Application definition
 
@@ -89,10 +89,28 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # After updating the database from sqlite to MongoDB, we do not need ORM anymore,
 # therefore we could just comment out the database settings.
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+"""
+
+DATABASES = {
+
+    'default': {
+
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+        'NAME': BASE_DIR / 'db.postgres',
+
+        'USER': 'nicolewu',
+
+        'PASSWORD': 'srlpp2022!',
+
+        'HOST': 'localhost'
     }
 }
 
@@ -152,4 +170,5 @@ EMAIL_HOST_PASSWORD = 'srl210731'
 # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
 GRAPH_DIR = os.path.join(STATICFILES_DIRS[0], "graphs")
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 django_heroku.settings(locals())

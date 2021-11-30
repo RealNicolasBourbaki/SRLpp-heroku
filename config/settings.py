@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'srlpp.herokuapp.com']
 DEBUG = False
 
 # Application definition
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,8 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
     'catalogue',
+    'accounts',
     'mails'
 ]
 
@@ -101,16 +102,12 @@ DATABASES = {
 DATABASES = {
 
     'default': {
-
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-        'NAME': BASE_DIR / 'db.postgres',
-
-        'USER': 'nicolewu',
-
-        'PASSWORD': 'srlpp2022!',
-
-        'HOST': 'localhost'
+        'NAME': 'srl.postgres',
+        'USER': 'postgres',
+        'PASSWORD': '950128950128',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
     }
 }
 
@@ -165,10 +162,13 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'srlpp.contact@gmail.com'
-EMAIL_HOST_PASSWORD = 'srl210731'
+EMAIL_HOST_USER = 'srl.plusplus@gmail.com'
+EMAIL_HOST_PASSWORD = 'srlpp2022'
 # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
 GRAPH_DIR = os.path.join(STATICFILES_DIRS[0], "graphs")
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 django_heroku.settings(locals())

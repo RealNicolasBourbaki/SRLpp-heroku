@@ -1,0 +1,11 @@
+.DS_Store
+*.pyc
+.idea/
+venv/
+*.sqlite3
+sqlite/
+__pycache__/
+srlpp_venv/
+site-packages/
+*.xml
+

@@ -33,7 +33,7 @@ SECRET_KEY = '+4x3v5f2_=%ltehp^x1y_+(%fx-+v5^ak#n8kg)&9d-*ns-7rb'
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'srlpp.herokuapp.com']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Application definition
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -103,7 +103,7 @@ DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'srl.postgres',
+        'NAME': 'srlpp.postgres',
         'USER': 'postgres',
         'PASSWORD': '950128950128',
         'HOST': '127.0.0.1',

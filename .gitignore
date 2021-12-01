@@ -7,5 +7,5 @@ sqlite/
 __pycache__/
 srlpp_venv/
 site-packages/
-*.xml
+
 

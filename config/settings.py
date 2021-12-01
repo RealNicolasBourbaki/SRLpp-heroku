@@ -15,15 +15,6 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# The path for catalogue data
-CATALOGUE_DIR = BASE_DIR.joinpath('catalogue_data')
-
-PUBLISHED_CATALOGUE_DIR = CATALOGUE_DIR.joinpath('published')
-SUBMITTED_CATALOGUE_DIR = CATALOGUE_DIR.joinpath('submitted')
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = CATALOGUE_DIR
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -45,12 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.runserver_nostatic',
     'catalogue',
     'accounts',
     'mails'
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'config.urls'
 
@@ -150,6 +145,14 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+CATALOGUE_DIR = BASE_DIR.joinpath('static').joinpath('catalogue_data')
+
+PUBLISHED_CATALOGUE_DIR = CATALOGUE_DIR.joinpath('published')
+SUBMITTED_CATALOGUE_DIR = CATALOGUE_DIR.joinpath('submitted')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TEMP_DIR = BASE_DIR.joinpath('static').joinpath('temp')
 

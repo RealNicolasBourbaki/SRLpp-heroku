@@ -60,7 +60,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(os.path.join(BASE_DIR, 'templates'))],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -170,7 +170,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'srl.plusplus@gmail.com'
 EMAIL_HOST_PASSWORD = 'srlpp2022'
 # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 GRAPH_DIR = os.path.join(STATICFILES_DIRS[0], "graphs")
 
 """

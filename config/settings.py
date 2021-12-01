@@ -60,7 +60,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(BASE_DIR.joinpath('templates'))],
+        'DIRS': [str(os.path.join(BASE_DIR, 'templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,15 +148,15 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-CATALOGUE_DIR = BASE_DIR.joinpath('static').joinpath('catalogue_data')
+CATALOGUE_DIR = os.path.join(BASE_DIR, 'static').join('catalogue_data')
 
-PUBLISHED_CATALOGUE_DIR = CATALOGUE_DIR.joinpath('published')
-SUBMITTED_CATALOGUE_DIR = CATALOGUE_DIR.joinpath('submitted')
+PUBLISHED_CATALOGUE_DIR = os.path.join(CATALOGUE_DIR, 'published')
+SUBMITTED_CATALOGUE_DIR = os.path.join(CATALOGUE_DIR, 'submitted')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-TEMP_DIR = BASE_DIR.joinpath('static').joinpath('temp')
+TEMP_DIR = os.path.join(BASE_DIR, 'static').join('temp')
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'

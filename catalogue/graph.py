@@ -155,6 +155,7 @@ def _get_cpt_name(cpt_id):
 
 
 def draw_graph(graph, edges_labels, this_root, file_path, out_path):
+    global GRAPH_NODE_COLORS
     pos = graphviz_layout(graph, root=this_root, prog="dot")
     node_info = graph.get_node_dict()
 
@@ -282,6 +283,7 @@ class ModelGraph(nx.DiGraph):
         self.node_dict = dict()
 
     def add_model_node(self, modelling_node):
+        global GRAPH_NODE_SHAPE
         node_id = modelling_node.get_node_id()
         self.add_node(node_id, s=GRAPH_NODE_SHAPE[modelling_node.node_type])
         self.node_dict[node_id] = modelling_node

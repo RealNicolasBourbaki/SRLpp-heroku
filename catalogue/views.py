@@ -65,6 +65,7 @@ def _make_zip(zip_subdir, files):
 
 
 def all_catalogue_download(request):
+    global ALL_DOWNLOAD_GROUP
     if ALL_DOWNLOAD_GROUP:
         files = list()
         zip_subdir = "catalogue_entries"
@@ -78,6 +79,7 @@ def all_catalogue_download(request):
 
 
 def search_download(request):
+    global SEARCH_DOWNLOAD_GROUP
     if SEARCH_DOWNLOAD_GROUP:
         files = list()
         zip_subdir = "searched_catalogue_entries"
@@ -224,6 +226,7 @@ def _list_directory(request, status='published'):
         if status == 'published':
             all_files_info = {}
             all_dir_info = {}
+            global ALL_DOWNLOAD_GROUP
             ALL_DOWNLOAD_GROUP.clear()
             for entry in _get_all_files_from_db():
                 path = os.path.join(settings.PUBLISHED_CATALOGUE_DIR, entry.entry_path)
@@ -286,6 +289,7 @@ def browse(request, path, mode):
 
 def _search_files(request, query):
     matched_files_links = []
+    global SEARCH_DOWNLOAD_GROUP
     SEARCH_DOWNLOAD_GROUP.clear()
     if len(query.strip()) != 0:
         all_files_info = _get_all_files_from_db()

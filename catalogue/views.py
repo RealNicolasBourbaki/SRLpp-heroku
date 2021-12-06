@@ -11,10 +11,13 @@ from io import BytesIO
 import xml.dom.minidom
 import xml.etree.ElementTree
 import zipfile
+import boto3
 
 ALL_DOWNLOAD_GROUP = []
 SEARCH_DOWNLOAD_GROUP = []
 SG_FILE = None
+s3 = boto3.resource('s3')
+bucket = s3.Bucket(settings.AWS_BUCKET)
 
 
 def get_names(directory):
@@ -34,11 +37,7 @@ def get_names(directory):
 
 
 def _get_abs_virtual_root():
-    return _eventual_path(settings.PUBLISHED_CATALOGUE_DIR)
-
-
-def _eventual_path(path):
-    return os.path.abspath(os.path.realpath(path))
+    return settings.PUBLISHED_CATALOGUE_DIR
 
 
 def download(request, path):
@@ -230,11 +229,12 @@ def _list_directory(request, status='published'):
             ALL_DOWNLOAD_GROUP.clear()
             for entry in _get_all_files_from_db():
                 path = os.path.join(settings.PUBLISHED_CATALOGUE_DIR, entry.entry_path)
+                rel_path = os.path.relpath(path, settings.AWS_URL)
                 basename = entry.entry_name
                 subdir = entry.belongs_to_sub_directory
                 sort_key = _make_sort_key(subdir, basename)
                 link_target = _get_link_target(path)
-                ALL_DOWNLOAD_GROUP.append(path)
+                ALL_DOWNLOAD_GROUP.append(rel_path)
                 if subdir == '':
                     all_files_info[sort_key] = (link_target, basename)
                 else:
@@ -271,8 +271,7 @@ def browse(request, path, mode):
     In which case, there should be an independent app in the project
     But we'll see if there's this need. I'll change accordingly.
     """
-    catalogue_path = _eventual_path(os.path.join(
-        settings.PUBLISHED_CATALOGUE_DIR, path))
+    catalogue_path = os.path.join(settings.PUBLISHED_CATALOGUE_DIR, path)
     if os.path.isfile(catalogue_path):
         if mode == "":
             mode = "text"

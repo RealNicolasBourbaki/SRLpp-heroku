@@ -25,6 +25,7 @@
                 </td>
                 <td>
                     <div>
+                    <p>file path: {{ file_path }}</p>
                         {% if file_path %}
                             {% get_link_target file_path as filename %}
                             {% ifequal mode "text" %}

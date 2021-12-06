@@ -139,6 +139,7 @@ def _view_file(request, file_path, mode):
         file_content = _get_xml_content(file_path)
         content["file_content"] = file_content
         content["mode"] = mode
+        content["test"] = "test"
     return render(request, "catalogue/catalogue_view.html", content)
 
 

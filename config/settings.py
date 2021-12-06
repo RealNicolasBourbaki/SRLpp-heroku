@@ -155,17 +155,17 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_URL = AWS_URL + '/static/'
+STATIC_URL = AWS_URL + 'static/'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # CATALOGUE_DIR = os.path.join(BASE_DIR, 'static').join('catalogue_data')
-CATALOGUE_DIR = AWS_URL + '/static/catalogue_data/'
-PUBLISHED_CATALOGUE_DIR = os.path.join(CATALOGUE_DIR, 'published/')
-SUBMITTED_CATALOGUE_DIR = os.path.join(CATALOGUE_DIR, 'submitted/')
-GRAPH_DIR = AWS_URL + '/static/graphs/'
-MEDIA_URL = AWS_URL + '/media/'
+CATALOGUE_DIR = AWS_URL + 'static/catalogue_data/'
+PUBLISHED_CATALOGUE_DIR = os.path.join(CATALOGUE_DIR, 'published')
+SUBMITTED_CATALOGUE_DIR = os.path.join(CATALOGUE_DIR, 'submitted')
+GRAPH_DIR = AWS_URL + 'static/graphs/'
+MEDIA_URL = AWS_URL + 'media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 

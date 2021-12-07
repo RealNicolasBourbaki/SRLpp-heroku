@@ -1,3 +1,5 @@
+import io
+
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
@@ -6,6 +8,7 @@ from .graph import make_graphs
 from .forms import DocumentForm
 from .models import SubmittedCatelogueEntries
 from urllib.request import urlopen
+import matplotlib.image as mpimg
 
 import os
 from io import BytesIO
@@ -17,7 +20,7 @@ import boto3
 ALL_DOWNLOAD_GROUP = []
 SEARCH_DOWNLOAD_GROUP = []
 SG_FILE = None
-s3 = boto3.resource('s3')
+s3 = boto3.resource('s3', region_name=settings.AWS_S3_REGION_NAME)
 bucket = s3.Bucket(settings.AWS_BUCKET)
 
 
@@ -92,9 +95,15 @@ def search_download(request):
 
 
 def _stylize_graphs(tree, file_path, target_graph_dir, content):
-    if os.path.exists(target_graph_dir):
-        graphs = os.listdir(target_graph_dir)
-        content["graphs"] = graphs
+    global bucket
+    images = bucket.objects.filter(Delimiter='/', Prefix=os.path.relpath(target_graph_dir, settings.AWS_URL))
+    if images:
+        content["graphs"] = []
+        for img in images:
+            file_stream = io.StringIO()
+            img.download_fileobj(file_stream)
+            img = mpimg.imread(file_stream)
+            content["graphs"].append(img)
     else:
         make_graphs(tree, file_path, settings.GRAPH_DIR)
         try:

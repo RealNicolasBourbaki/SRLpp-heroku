@@ -25,7 +25,7 @@
                 </td>
                 <td>
                     <div>
-
+                        {% if file_path %}
                             {% get_link_target file_path as filename %}
                             {% ifequal mode "text" %}
                                 <button type="submit" name="stylize" onclick="location.href='{% url 'catalogue_browse' filename "style" %}'">Pretty print view</button>
@@ -34,7 +34,7 @@
                                     <button type="submit" name="textize" onclick="location.href='{% url 'catalogue_browse' filename "text" %}'">Plain text view</button>
                                 {% endifequal %}
                             {% endifequal %}
-                           
+                        {% endif %}
                     </div>
                 </td>
             </tr>

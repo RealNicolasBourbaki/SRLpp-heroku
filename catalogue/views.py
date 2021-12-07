@@ -255,7 +255,8 @@ def _list_directory(request, status='published'):
             data = {
                 'ordered_keys': ordered_keys,
                 'files': all_files_info,
-                'sub_dirs': all_dir_info
+                'sub_dirs': all_dir_info,
+                'mode': 'text',
             }
             return data
     raise PermissionError
@@ -273,7 +274,7 @@ def browse(request, path, mode):
     But we'll see if there's this need. I'll change accordingly.
     """
     catalogue_path = os.path.join(settings.PUBLISHED_CATALOGUE_DIR, path)
-    if os.path.isfile(catalogue_path):
+    if catalogue_path.endswith('.xml'):
         if mode == "":
             mode = "text"
         return _view_file(request, catalogue_path, mode)

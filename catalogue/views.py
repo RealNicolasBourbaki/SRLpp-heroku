@@ -5,11 +5,12 @@ from .models import CatalogueEntries
 from .graph import make_graphs
 from .forms import DocumentForm
 from .models import SubmittedCatelogueEntries
+from urllib.request import urlopen
 
 import os
 from io import BytesIO
 import xml.dom.minidom
-import xml.etree.ElementTree
+import xml.etree.ElementTree as ET
 import zipfile
 import boto3
 
@@ -152,8 +153,12 @@ def _get_xml_content(file_path):
     return file_content
 
 
-def _get_xml_tree(xml_file):
-    return xml.etree.ElementTree.parse(xml_file)
+def _get_xml_tree(xml_url):
+    xml_string = []
+    for line in urlopen(xml_url):
+        xml_string.append(line)
+    xml_string = "\t".join(xml_string)
+    return ET.ElementTree(ET.fromstring(xml_string))
 
 
 def _get_xml_styled(tree):

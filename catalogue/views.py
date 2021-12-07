@@ -98,13 +98,8 @@ def _stylize_graphs(tree, file_path, target_graph_dir, content):
     global bucket
     images = bucket.objects.filter(Delimiter='/', Prefix=os.path.relpath(target_graph_dir, settings.AWS_URL))
     if images:
-        raise FileNotFoundError(images)
-        content["graphs"] = []
-        for img in images:
-            file_stream = io.StringIO()
-            img.download_fileobj(file_stream)
-            img = mpimg.imread(file_stream)
-            content["graphs"].append(img)
+
+        content["graphs"] = [settings.GRAPH_DIR(img['key']) for img in images]
     else:
         make_graphs(tree, file_path, settings.GRAPH_DIR)
         try:

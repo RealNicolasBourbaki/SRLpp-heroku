@@ -144,8 +144,12 @@ def _view_file(request, file_path, mode):
     return render(request, "catalogue/catalogue_view.html", content)
 
 
-def _get_xml_content(file_path):
-    dom = xml.dom.minidom.parse(file_path)
+def _get_xml_content(xml_url):
+    xml_string = []
+    for line in urlopen(xml_url):
+        xml_string.append(line)
+    xml_string = "\t".join(xml_string)
+    dom = xml.dom.minidom.parseString(xml_string)
     file_content = []
     for line in dom.toprettyxml().split('\n'):
         if len(line.strip()) != 0:
@@ -261,7 +265,6 @@ def _list_directory(request, status='published'):
                 'ordered_keys': ordered_keys,
                 'files': all_files_info,
                 'sub_dirs': all_dir_info,
-                'mode': 'text',
             }
             return data
     raise PermissionError

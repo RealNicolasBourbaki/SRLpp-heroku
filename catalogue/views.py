@@ -147,7 +147,7 @@ def _view_file(request, file_path, mode):
 def _get_xml_content(xml_url):
     xml_string = []
     for line in urlopen(xml_url):
-        xml_string.append(line)
+        xml_string.append(line.decode('utf-8'))
     xml_string = "\t".join(xml_string)
     dom = xml.dom.minidom.parseString(xml_string)
     file_content = []
@@ -160,7 +160,7 @@ def _get_xml_content(xml_url):
 def _get_xml_tree(xml_url):
     xml_string = []
     for line in urlopen(xml_url):
-        xml_string.append(line)
+        xml_string.append(line.decode('utf-8'))
     xml_string = "\t".join(xml_string)
     return ET.ElementTree(ET.fromstring(xml_string))
 

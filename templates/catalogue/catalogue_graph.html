@@ -10,20 +10,19 @@
         {% get_basename file_path as basename %}
         {% get_graph_type graph as graph_type %}
         {% get_graph_id graph as graph_id %}
-        {% with "graphs/"|add:basename|add:"/"|add:graph as graph_scource %}
-            <h1>Semantic Graphs</h1>
-            <ul>
-                <li>
-                    <h3>Graph Id: </h3>
-                    <p>{{ graph_id }}</p>
-                </li>
-                <li>
-                    <h3>Graph Type: </h3>
-                    <p>{{ graph_type }}</p>
-                </li>
-                <img src={% static graph_scource %} />
-            </ul>
-        {% endwith %}
+
+        <h1>Semantic Graphs</h1>
+        <ul>
+            <li>
+                <h3>Graph Id: </h3>
+                <p>{{ graph_id }}</p>
+            </li>
+            <li>
+                <h3>Graph Type: </h3>
+                <p>{{ graph_type }}</p>
+            </li>
+            <img src={% static graph %} />
+        </ul>
         </div>
     {% endfor %}
     </body>

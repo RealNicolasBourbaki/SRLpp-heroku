@@ -105,6 +105,7 @@ def _stylize_graphs(tree, file_path, target_graph_dir, content):
             img = mpimg.imread(file_stream)
             content["graphs"].append(img)
     else:
+        raise FileNotFoundError('wrong')
         make_graphs(tree, file_path, settings.GRAPH_DIR)
         try:
             graphs = os.listdir(target_graph_dir)

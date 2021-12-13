@@ -100,6 +100,7 @@ def _stylize_graphs(tree, file_path, target_graph_dir, content):
     if images:
 
         content["graphs"] = [os.path.join(settings.GRAPH_DIR, img.key) for img in images]
+        raise (FileNotFoundError(content["graphs"]))
     else:
         raise (FileNotFoundError('weird'))
         make_graphs(tree, file_path, settings.GRAPH_DIR)

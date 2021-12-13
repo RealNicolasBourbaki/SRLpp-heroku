@@ -100,8 +100,8 @@ def _stylize_graphs(tree, file_path, target_graph_dir, content):
     images = bucket.objects.filter(Delimiter='/', Prefix=prefix)
     if images:
         static_rel_path = os.path.relpath(target_graph_dir, settings.STATIC_URL) + '/'
-        raise (FileNotFoundError(static_rel_path))
         content["graphs"] = [os.path.join(static_rel_path, img.key) for img in images]
+        raise (FileNotFoundError(static_rel_path, str(len(content["graphs"]))))
     else:
         make_graphs(tree, file_path, settings.GRAPH_DIR)
         try:

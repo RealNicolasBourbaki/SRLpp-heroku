@@ -96,10 +96,10 @@ def search_download(request):
 
 def _stylize_graphs(tree, file_path, target_graph_dir, content):
     global bucket
-    images = bucket.objects.filter(Delimiter='/', Prefix=os.path.relpath(target_graph_dir, settings.AWS_URL)+'/')
+    prefix = os.path.relpath(target_graph_dir, settings.AWS_URL)+'/'
+    images = bucket.objects.filter(Delimiter='/', Prefix=prefix)
     if images:
-        content["graphs"] = [os.path.join(settings.GRAPH_DIR, img.key) for img in images]
-        raise (FileNotFoundError(content["graphs"]))
+        content["graphs"] = [os.path.join(prefix, img.key) for img in images]
     else:
         raise (FileNotFoundError('weird'))
         make_graphs(tree, file_path, settings.GRAPH_DIR)

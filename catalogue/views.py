@@ -99,8 +99,7 @@ def _stylize_graphs(tree, file_path, target_graph_dir, content):
     prefix = os.path.relpath(target_graph_dir, settings.AWS_URL)+'/'
     images = bucket.objects.filter(Delimiter='/', Prefix=prefix)
     if images:
-        static_rel_path = os.path.relpath(target_graph_dir, settings.AWS_URL+'/static/')+'/'
-        content["graphs"] = [img.key for img in images]
+        content["graphs"] = [settings.AWS_URL+img.key for img in images]
     else:
         make_graphs(tree, file_path, settings.GRAPH_DIR)
         try:

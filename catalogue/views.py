@@ -44,18 +44,8 @@ def _get_abs_virtual_root():
 def download(request, path):
     if os.path.exists(path):
         rel_path = os.path.relpath(path, start=settings.AWS_URL)
-        name = os.path.basename(rel_path)
-        response_headers = {
-            'response-content-type': 'application/force-download',
-            'response-content-disposition':'attachment;filename="%s"'% name
-        }
-        url = s3.generate_url(60, 'GET',
-                              bucket=settings.AWS_STORAGE_BUCKET_NAME,
-                              key=rel_path,
-                              response_headers=response_headers,
-                              force_http=True)
+        url = bucket.get_key(rel_path).generate_url(expires_in=1200)
         return HttpResponseRedirect(url)
-    raise Http404
 
 
 def _make_zip(zip_subdir, files):
@@ -74,15 +64,14 @@ def _make_zip(zip_subdir, files):
 
 def all_catalogue_download(request):
     global bucket
-    s3 = boto3.client('s3')
+    client = boto3.client("s3")
     rel_path = os.path.relpath(settings.ALL_ENTRIES_DOWNLOAD, start=settings.AWS_URL)
-    url = s3.generate_presigned_url(
-        ClientMethod='get_object',
-        Params={
+    url = client.generate_presigned_url(
+        'get_object',
+        Params = {
             'Bucket': settings.AWS_BUCKET,
-            'Key': rel_path
-        }
-    )
+            'Key': rel_path, },
+        ExpiresIn=600, )
     return HttpResponseRedirect(url)
 
 

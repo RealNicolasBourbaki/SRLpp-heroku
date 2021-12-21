@@ -70,7 +70,7 @@ def all_catalogue_download(request):
         'get_object',
         Params = {
             'Bucket': settings.AWS_BUCKET,
-            'Key': rel_path, },
+            'Key': "static/catalogue_data/published/"+os.path.basename(rel_path), },
         ExpiresIn=600, )
     return HttpResponseRedirect(url)
 

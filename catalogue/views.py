@@ -58,7 +58,7 @@ def _make_zip(zip_subdir, files):
         key = os.path.relpath(fpath, start=settings.AWS_URL)
         subdir = os.path.relpath(key, start=settings.PUBLISHED_CATALOGUE_DIR)
         data = bucket.Object(key)
-        zf.writestr(subdir, data.get('Body').read())
+        zf.writestr(subdir, data.get()['Body'].read())
     zf.close()
     resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
@@ -67,20 +67,18 @@ def _make_zip(zip_subdir, files):
 
 def all_catalogue_download(request):
     global ALL_DOWNLOAD_GROUP
-    for entry in _get_all_files_from_db():
-        path = entry.entry_path
-        ALL_DOWNLOAD_GROUP.append(path)
 
-    if ALL_DOWNLOAD_GROUP:
-        files = list()
-        zip_subdir = "catalogue_entries"
-        for file in ALL_DOWNLOAD_GROUP:
-            files.append(file)
-        resp = _make_zip(zip_subdir, files)
-        return resp
-    else:
-        print('error here')
-        raise TypeError("Files path are not set correctly.")
+    if not ALL_DOWNLOAD_GROUP:
+        for entry in _get_all_files_from_db():
+            path = entry.entry_path
+            ALL_DOWNLOAD_GROUP.append(path)
+
+    files = list()
+    zip_subdir = "catalogue_entries"
+    for file in ALL_DOWNLOAD_GROUP:
+        files.append(file)
+    resp = _make_zip(zip_subdir, files)
+    return resp
 
 
 def search_download(request):

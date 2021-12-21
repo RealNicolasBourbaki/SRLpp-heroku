@@ -55,7 +55,9 @@ def _make_zip(zip_subdir, files):
     s = BytesIO()
     zf = zipfile.ZipFile(s, "w")
     for fpath in files:
-        fdir, fname = os.path.split(fpath)
+        key = os.path.relpath(fpath, start=settings.AWS_URL)
+        data = bucket.Object(key)
+        fdir, fname = os.path.split(key)
         zip_path = os.path.join(zip_subdir, fname)
         zf.write(fpath, zip_path)
     zf.close()

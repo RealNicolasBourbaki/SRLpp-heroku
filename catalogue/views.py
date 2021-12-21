@@ -70,7 +70,7 @@ def all_catalogue_download(request):
         'get_object',
         Params = {
             'Bucket': settings.AWS_BUCKET,
-            'Key': settings.ALL_ENTRIES_DOWNLOAD, },
+            'Key': "static/catalogue_data/all_catalogue_entries.zip", },
         ExpiresIn=600, )
     return HttpResponseRedirect(url)
 

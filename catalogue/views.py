@@ -64,13 +64,17 @@ def _make_zip(zip_subdir, files):
     return resp
 
 
-def all_catalogue_download():
+def all_catalogue_download(request):
     global bucket
+    s = BytesIO()
     rel_path = os.path.relpath(settings.ALL_ENTRIES_DOWNLOAD, start=settings.AWS_URL)
     name = os.path.basename(rel_path)
     for obj in bucket.objects.filter(Prefix=rel_path):
         if obj.key == name:
             bucket.download_file(obj.key, obj.key)
+    resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+    resp['Content-Disposition'] = 'attachment; filename=%s' % name
+    return resp
 
 
 def search_download(request):

@@ -74,6 +74,7 @@ def _make_zip(zip_subdir, files):
 
 def all_catalogue_download(request):
     global bucket
+    s3 = boto3.client('s3')
     rel_path = os.path.relpath(settings.ALL_ENTRIES_DOWNLOAD, start=settings.AWS_URL)
     url = s3.generate_presigned_url(
         ClientMethod='get_object',

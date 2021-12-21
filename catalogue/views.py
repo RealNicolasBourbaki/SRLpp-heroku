@@ -75,7 +75,16 @@ def _make_zip(zip_subdir, files):
 def all_catalogue_download(request):
     global bucket
     rel_path = os.path.relpath(settings.ALL_ENTRIES_DOWNLOAD, start=settings.AWS_URL)
-    url = bucket.get_key(rel_path).generate_url(expires_in=1200)
+    name = os.path.basename(rel_path)
+    response_headers = {
+        'response-content-type': 'application/force-download',
+        'response-content-disposition':'attachment;filename="%s"'% name
+    }
+    url = s3.generate_url(60, 'GET',
+                          bucket=settings.AWS_STORAGE_BUCKET_NAME,
+                          key=rel_path,
+                          response_headers=response_headers,
+                          force_http=True)
     return HttpResponseRedirect(url)
 
 

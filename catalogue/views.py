@@ -55,10 +55,9 @@ def _make_zip(zip_subdir, files):
     s = BytesIO()
     zf = zipfile.ZipFile(s, "w")
     for fpath in files:
-        key = os.path.relpath(fpath, start=settings.AWS_URL)
-        subdir = os.path.relpath(key, start=settings.PUBLISHED_CATALOGUE_DIR)
-        data = bucket.Object(key)
-        zf.writestr(subdir, data.get()['Body'].read())
+        subdir = os.path.relpath(fpath, start=settings.PUBLISHED_CATALOGUE_DIR)
+        data = "\n".join(_get_xml_content(fpath))
+        zf.writestr(subdir, data)
     zf.close()
     resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename

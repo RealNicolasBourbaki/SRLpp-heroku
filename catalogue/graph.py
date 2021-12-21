@@ -34,8 +34,7 @@ def _get_modellings(xml_tree):
     if semantic_graphs:
         for semantic_graph in semantic_graphs:
             graph_info = semantic_graph.find("graphInfo")
-            semantic_graph_id = graph_info.attrib["graphId"]
-            all_graphs_id.append(semantic_graph_id)
+            all_graphs_id.append(graph_info.attrib["graphId"])
             all_graphs_info.append(graph_info.attrib)
 
     return all_graphs_id, all_graphs_info, modelling_def, semantic_graphs
@@ -58,14 +57,14 @@ def get_nodes_from_def(sg):
 
 
 def _extract_graph_info(graph_info):
-    media = graph_info["modality"]
+    modality = graph_info["modality"]
     language = graph_info["language"]
     source_link = graph_info["sourceLocation"]
     if "modellingPart" in graph_info.keys():
         modelling_part = True if graph_info["modellingPart"] == "true" else False
     else:
         modelling_part = False
-    return media, language, source_link, modelling_part
+    return modality, language, source_link, modelling_part
 
 
 def make_edges(edges):
@@ -83,10 +82,7 @@ def make_graphs(tree, file_path, out_path):
         tree)
     assert len(all_graphs_id) == len(
         all_graphs_info) == len(semantic_graphs)
-    '''
-    if modelling_def:
-    # to do
-    '''
+
     for graph_info, graph_id, sg in zip(
             all_graphs_info, all_graphs_id, semantic_graphs):
         make_graph(graph_info, graph_id, sg, file_path, out_path)
@@ -96,8 +92,8 @@ def make_graph(graph_info, graph_id, sg, file_path, out_path):
     if sg:
         modelling_graph = ModelGraph(graph_id, False)
         modelling_all_nodes = get_nodes_from_def(sg)
-        media, language, source_link, modelling_part = _extract_graph_info(graph_info)
-        modelling_graph.set_graph_info(media, language, source_link, modelling_part)
+        modality, language, source_link, modelling_part = _extract_graph_info(graph_info)
+        modelling_graph.set_graph_info(modality, language, source_link, modelling_part)
         this_root_id = None
         for node_type, nodes in modelling_all_nodes.items():
             if nodes:
@@ -125,7 +121,10 @@ def _make_nodes(node_type, node):
     node_id = node_attribs["nodeId"]
     # nodeId is required attribute
     if node_type == 'concept_nodes':
-        name = _get_cpt_name(node_attribs['id'])
+        if "name" not in keys:
+            name = _get_cpt_name(node_attribs['id'])
+        else:
+            name = node_attribs["name"]
     else:
         name = node_attribs["name"] if "name" in keys else None
 

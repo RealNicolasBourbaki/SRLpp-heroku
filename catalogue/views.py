@@ -1,5 +1,3 @@
-import io
-
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
@@ -8,7 +6,6 @@ from .graph import make_graphs
 from .forms import DocumentForm
 from .models import SubmittedCatelogueEntries
 from urllib.request import urlopen
-import matplotlib.image as mpimg
 
 import os
 from io import BytesIO
@@ -210,7 +207,7 @@ def _get_xml_styled(tree):
 
 
 def _get_link_target(path):
-    link_target = os.path.relpath(path, start=_get_abs_virtual_root())
+    link_target = os.path.relpath(path, start=settings.PUBLISHED_CATALOGUE_DIR)
     return link_target
 
 
@@ -243,7 +240,7 @@ def _list_directory(request, status='published'):
             global ALL_DOWNLOAD_GROUP
             ALL_DOWNLOAD_GROUP.clear()
             for entry in _get_all_files_from_db():
-                path = os.path.join(settings.PUBLISHED_CATALOGUE_DIR, entry.entry_path)
+                path = os.path.join(entry.entry_path)
                 rel_path = os.path.relpath(path, settings.AWS_URL)
                 basename = entry.entry_name
                 subdir = entry.belongs_to_sub_directory
@@ -287,6 +284,7 @@ def browse(request, path, mode):
     But we'll see if there's this need. I'll change accordingly.
     """
     catalogue_path = os.path.join(settings.PUBLISHED_CATALOGUE_DIR, path)
+
     if catalogue_path.endswith('.xml'):
         if mode == "":
             mode = "text"

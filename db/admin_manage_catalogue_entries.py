@@ -14,7 +14,8 @@ import xml.etree.ElementTree
 
 all_entries_name = set(str(e) for e in CatalogueEntries.objects.all())
 
-published_catalogue_path = settings.PUBLISHED_CATALOGUE_DIR
+catalogue_path = settings.PUBLISHED_CATALOGUE_DIR
+published_catalogue_path = "F:\\03Sony\\heroku\\all concepts\\"
 
 
 def _is_duplicate(concept_name):
@@ -64,18 +65,25 @@ def bulk_addition():
                 continue
             else:
                 file_path = os.path.join(root, file)
-                rel_path = os.path.relpath(file_path, published_catalogue_path)
-                basename = os.path.basename(file_path)
+                sub_dir = _get_subdir(file_path)
+                rel_path = os.path.join(catalogue_path, sub_dir, file)
                 info = _get_catalogue_info(file_path)
-                CatalogueEntries.objects.create(entry_path=rel_path,
-                                                entry_name=basename,
-                                                entry_version=info['version'],
-                                                belongs_to_sub_directory=_get_subdir(file_path))
-                GraphEntries.objects.create(entry_path=rel_path,
-                                            entry_id=info["id"],
-                                            entry_name=info["name"],
-                                            entry_version=info["version"]
-                                            )
+                rel_path = rel_path.replace("\\\\", "/")
+                rel_path = rel_path.replace("\\", "/")
+                try:
+                    CatalogueEntries.objects.create(entry_path=rel_path,
+                                                    entry_name=file,
+                                                    entry_version=info['version'],
+                                                    belongs_to_sub_directory=sub_dir)
+                    GraphEntries.objects.create(entry_path=rel_path,
+                                                entry_id=info["id"],
+                                                entry_name=info["name"],
+                                                entry_version=info["version"]
+                                                )
+                except Exception:
+                    print(file)
+                    exit(1)
 
 # now depend on your need, you could:
+
 bulk_addition()  # to bulk add all published catalogue, exclude duplicates.

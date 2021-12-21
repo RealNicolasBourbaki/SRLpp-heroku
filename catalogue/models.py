@@ -7,7 +7,7 @@ from django.db import models
 
 # Create your models here.
 class CatalogueEntries(models.Model):
-    entry_path = models.CharField(max_length=200, default='')
+    entry_path = models.CharField(max_length=500, default='')
     entry_name = models.CharField(max_length=100, default='')
     entry_version = models.CharField(max_length=50, default='')
     belongs_to_sub_directory = models.CharField(max_length=50, default='')
@@ -22,10 +22,10 @@ class CatalogueEntries(models.Model):
 
 class GraphEntries(models.Model):
 
-    entry_path = models.CharField(max_length=200, default='')
-    entry_id = models.CharField(max_length=200, default='')
-    entry_name = models.CharField(max_length=200, default='')
-    entry_version = models.CharField(max_length=200, default='')
+    entry_path = models.CharField(max_length=500, default='')
+    entry_id = models.CharField(max_length=500, default='')
+    entry_name = models.CharField(max_length=500, default='')
+    entry_version = models.CharField(max_length=500, default='')
 
     def __str__(self):
         return self._get_id()

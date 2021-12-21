@@ -43,10 +43,18 @@ def _get_abs_virtual_root():
 
 def download(request, path):
     if os.path.exists(path):
-        with open(path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(path)
-            return response
+        rel_path = os.path.relpath(path, start=settings.AWS_URL)
+        name = os.path.basename(rel_path)
+        response_headers = {
+            'response-content-type': 'application/force-download',
+            'response-content-disposition':'attachment;filename="%s"'% name
+        }
+        url = s3.generate_url(60, 'GET',
+                              bucket=settings.AWS_STORAGE_BUCKET_NAME,
+                              key=rel_path,
+                              response_headers=response_headers,
+                              force_http=True)
+        return HttpResponseRedirect(url)
     raise Http404
 
 

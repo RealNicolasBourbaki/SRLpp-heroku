@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from .models import CatalogueEntries
 from .graph import make_graphs
 from .forms import DocumentForm
@@ -66,15 +66,9 @@ def _make_zip(zip_subdir, files):
 
 def all_catalogue_download(request):
     global bucket
-    s = BytesIO()
     rel_path = os.path.relpath(settings.ALL_ENTRIES_DOWNLOAD, start=settings.AWS_URL)
-    name = os.path.basename(rel_path)
-    for obj in bucket.objects.filter(Prefix=rel_path):
-        if obj.key == name:
-            bucket.download_file(obj.key, obj.key)
-    resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
-    resp['Content-Disposition'] = 'attachment; filename=%s' % name
-    return resp
+    url = bucket.get_key(rel_path).generate_url(expires_in=1200)
+    return HttpResponseRedirect(url)
 
 
 def search_download(request):

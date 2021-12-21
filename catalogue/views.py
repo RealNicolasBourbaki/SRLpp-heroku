@@ -65,19 +65,12 @@ def _make_zip(zip_subdir, files):
 
 
 def all_catalogue_download(request):
-    global ALL_DOWNLOAD_GROUP
-
-    if not ALL_DOWNLOAD_GROUP:
-        for entry in _get_all_files_from_db():
-            path = entry.entry_path
-            ALL_DOWNLOAD_GROUP.append(path)
-
-    files = list()
-    zip_subdir = "catalogue_entries"
-    for file in ALL_DOWNLOAD_GROUP:
-        files.append(file)
-    resp = _make_zip(zip_subdir, files)
-    return resp
+    global bucket
+    rel_path = os.path.relpath(settings.ALL_ENTRIES_DOWNLOAD, start=settings.AWS_URL)
+    name = os.path.basename(rel_path)
+    for obj in bucket.objects.filter(Prefix=rel_path):
+        if obj.key == name:
+            bucket.download_file(obj.key, obj.key)
 
 
 def search_download(request):

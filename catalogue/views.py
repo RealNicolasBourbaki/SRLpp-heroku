@@ -67,6 +67,10 @@ def _make_zip(zip_subdir, files):
 
 def all_catalogue_download(request):
     global ALL_DOWNLOAD_GROUP
+    for entry in _get_all_files_from_db():
+        path = entry.entry_path
+        ALL_DOWNLOAD_GROUP.append(path)
+
     if ALL_DOWNLOAD_GROUP:
         files = list()
         zip_subdir = "catalogue_entries"

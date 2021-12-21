@@ -64,7 +64,7 @@ def _make_zip(zip_subdir, files):
     return resp
 
 
-def all_catalogue_download(request):
+def all_catalogue_download():
     global bucket
     rel_path = os.path.relpath(settings.ALL_ENTRIES_DOWNLOAD, start=settings.AWS_URL)
     name = os.path.basename(rel_path)

@@ -240,12 +240,12 @@ def _list_directory(request, status='published'):
             global ALL_DOWNLOAD_GROUP
             ALL_DOWNLOAD_GROUP.clear()
             for entry in _get_all_files_from_db():
-                path = os.path.join(entry.entry_path)
-                rel_path = os.path.relpath(path, settings.AWS_URL)
+                path = entry.entry_path
+                rel_path = os.path.relpath(path, start=settings.AWS_URL)
                 basename = entry.entry_name
                 subdir = entry.belongs_to_sub_directory
                 sort_key = _make_sort_key(subdir, basename)
-                link_target = _get_link_target(path)
+                link_target = subdir+"/"+basename
                 ALL_DOWNLOAD_GROUP.append(rel_path)
                 if subdir == '':
                     all_files_info[sort_key] = (link_target, basename)

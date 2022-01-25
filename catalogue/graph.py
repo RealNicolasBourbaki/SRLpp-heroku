@@ -42,11 +42,11 @@ def _get_modellings(xml_tree):
 
 def get_nodes_from_def(sg):
     nodes = sg.find("modellingDef/nodes")
-    concept_nodes = nodes.findall("conceptNodes/conceptNode")
-    anonymous_nodes = nodes.findall("omittedNodes/omittedNode")
-    entity_nodes = nodes.findall("entityNodes/entityNode")
-    metaoperator_nodes = nodes.findall("metaoperatorNodes/metaoperatorNode")
-    unknown_nodes = nodes.findall("pseudoNodes/pseudoNode")
+    concept_nodes = nodes.findall("conceptNode")
+    anonymous_nodes = nodes.findall("omittedNode")
+    entity_nodes = nodes.findall("entityNode")
+    metaoperator_nodes = nodes.findall("metaoperatorNode")
+    unknown_nodes = nodes.findall("pseudoNode")
     return {
         "concept_nodes": concept_nodes,
         "omitted_nodes": anonymous_nodes,

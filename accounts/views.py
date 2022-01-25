@@ -14,8 +14,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.shortcuts import render
 from django.template.loader import render_to_string
-from django.views import generic
-from .forms import SignupForm, MyUserCreationForm, MyPasswordResetForm
+from .forms import SignupForm, MyPasswordResetForm
 from .tokens import account_activation_token
 
 
@@ -59,12 +58,6 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
-
-
-class SignUpView(generic.CreateView):
-    form_class = MyUserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'registration/signup.html'
 
 
 class MyPasswordResetView(PasswordContextMixin, FormView):

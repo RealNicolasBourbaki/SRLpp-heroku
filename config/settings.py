@@ -182,7 +182,7 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'srl.plusplus@gmail.com'
-EMAIL_HOST_PASSWORD = 'srlpp2022'
+EMAIL_HOST_PASSWORD = 'ymeuefjhfqntvmra'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 

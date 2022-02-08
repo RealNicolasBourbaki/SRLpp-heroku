@@ -350,9 +350,12 @@ def generate_sg(file_path, name):
 
 
 def _handle_uploaded_file(f, name):
+    s3.Object(bucket, name).put(Body=open('/temp/'+name, 'rb'))
+    """
     with open(os.path.join(settings.TEMP_DIR, name), 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+    """
 
 
 def submit_sg_generation(request):
@@ -369,7 +372,7 @@ def submit_sg_generation(request):
     else:
         form = DocumentForm()
     if SG_FILE:
-        file_path = settings.TEMP_DIR.joinpath(SG_FILE.name)
+        file_path = os.path.join(settings.TEMP_DIR, SG_FILE.name)
         graphs = generate_sg(file_path, SG_FILE.name)
     else:
         file_path = None

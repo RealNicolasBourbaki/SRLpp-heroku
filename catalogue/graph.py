@@ -1,10 +1,16 @@
+import io
 import os
 import textwrap
 import networkx as nx
 import matplotlib.pyplot as plt
+import boto3
+
+from django.conf import settings
 from .models import GraphEntries
 from networkx.drawing.nx_pydot import graphviz_layout
 
+s3 = boto3.resource('s3', region_name=settings.AWS_S3_REGION_NAME)
+bucket = s3.Bucket(settings.AWS_BUCKET)
 
 GRAPH_NODE_COLORS = {
     "concept_nodes": "#bcf5fb",  # light blue
@@ -220,25 +226,34 @@ def draw_graph(graph, edges_labels, this_root, file_path, out_path):
         font_color="black")
     plt.axis("off")
     basename = os.path.splitext(os.path.basename(file_path))[0]
-    goal_dir = os.path.join(out_path, basename)
-    if not os.path.exists(goal_dir):
-        os.makedirs(goal_dir)
+    # goal_dir = os.path.join(out_path, basename)
+    img_data = io.BytesIO()
+    # if not os.path.exists(goal_dir):
+    #    os.makedirs(goal_dir)
     if graph.ifmodelling:
-        plt.savefig(
-            os.path.join(
-                out_path,
-                basename,
-                graph.graph_id +
-                "_modelling.png"),
-            format="PNG")
+        plt.savefig(img_data, format="png")
+        img_data.seek(0)
+        upload_path = os.path.join(settings.TEMP_DIR, basename, graph.graph_id+"_modelling.png")
+        bucket.upload_fileobj(img_data, os.path.relpath(upload_path, settings.AWS_URL))
+        # plt.savefig(
+        #    os.path.join(
+        #        out_path,
+        #        basename,
+        #        graph.graph_id +
+        #        "_modelling.png"),
+        #    format="PNG")
     else:
-        plt.savefig(
-            os.path.join(
-                out_path,
-                basename,
-                graph.graph_id +
-                "_sg.png"),
-            format="PNG")
+        plt.savefig(img_data, format="png")
+        img_data.seek(0)
+        upload_path = os.path.join(settings.TEMP_DIR, basename, graph.graph_id + "_sg.png")
+        bucket.upload_fileobj(img_data, os.path.relpath(upload_path, settings.AWS_URL))
+        # plt.savefig(
+        #     os.path.join(
+        #         out_path,
+        #         basename,
+        #         graph.graph_id +
+        #         "_sg.png"),
+        #     format="PNG")
 
 
 class ModelNode:

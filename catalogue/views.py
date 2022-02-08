@@ -157,11 +157,14 @@ def _get_xml_content(xml_url):
 
 
 def _get_xml_tree(xml_url):
-    xml_string = []
-    for line in urlopen(xml_url):
-        xml_string.append(line.decode('utf-8'))
-    xml_string = "\t".join(xml_string)
-    return ET.ElementTree(ET.fromstring(xml_string))
+    try:
+        xml_string = []
+        for line in urlopen(xml_url):
+            xml_string.append(line.decode('utf-8'))
+        xml_string = "\t".join(xml_string)
+        return ET.ElementTree(ET.fromstring(xml_string))
+    except:
+        raise TypeError("error", xml_url)
 
 
 def _get_xml_styled(tree):

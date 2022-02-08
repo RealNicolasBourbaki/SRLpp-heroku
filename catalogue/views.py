@@ -342,7 +342,8 @@ def generate_sg(file_path, name):
     out_path = settings.TEMP_DIR
     make_graphs(tree, file_path, out_path)
     try:
-        graphs = [settings.AWS_URL + g.key for g in bucket.objects.filter(Prefix=os.path.join(out_path, name[:-4]+"/"))]
+        prefix = os.path.relpath(os.path.join(out_path, name[:-4]), settings.AWS_URL) + '/'
+        graphs = [settings.AWS_URL + g.key for g in bucket.objects.filter(Prefix=prefix)]
         # graphs = os.listdir(os.path.join(out_path, name[:-4]+"/"))
     except:
         graphs = []

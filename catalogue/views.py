@@ -350,7 +350,7 @@ def generate_sg(file_path, name):
 
 
 def _handle_uploaded_file(f, name):
-    with open(settings.TEMP_DIR.joinpath(name), 'wb+') as destination:
+    with open(os.path.join(settings.TEMP_DIR, name), 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 

@@ -344,8 +344,7 @@ def generate_sg(file_path, name):
     try:
         graphs = [settings.AWS_URL + g.key for g in bucket.objects.filter(Prefix=os.path.join(out_path, name))]
         # graphs = os.listdir(os.path.join(out_path, name[:-4]+"/"))
-
-    except FileNotFoundError:
+    except:
         raise FileNotFoundError(graphs)
     return graphs
 

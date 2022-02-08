@@ -342,7 +342,7 @@ def generate_sg(file_path, name):
     out_path = settings.TEMP_DIR
     make_graphs(tree, file_path, out_path)
     try:
-        graphs = os.listdir(out_path.joinpath(name[:-4]))
+        graphs = os.listdir(os.path.join(out_path, name[:-4]))
 
     except FileNotFoundError:
         graphs = []

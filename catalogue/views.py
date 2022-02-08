@@ -346,7 +346,7 @@ def generate_sg(file_path, name):
 
     except FileNotFoundError:
         graphs = []
-        raise FileNotFoundError(graphs)
+        raise FileNotFoundError(os.path.join(out_path, name[:-4]))
     return graphs
 
 

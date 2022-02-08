@@ -157,14 +157,11 @@ def _get_xml_content(xml_url):
 
 
 def _get_xml_tree(xml_url):
-    try:
-        xml_string = []
-        for line in urlopen(xml_url):
-            xml_string.append(line.decode('utf-8'))
-        xml_string = "\t".join(xml_string)
-        return ET.ElementTree(ET.fromstring(xml_string))
-    except:
-        raise TypeError("error", xml_url)
+    xml_string = []
+    for line in urlopen(xml_url):
+        xml_string.append(line.decode('utf-8'))
+    xml_string = "\t".join(xml_string)
+    return ET.ElementTree(ET.fromstring(xml_string))
 
 
 def _get_xml_styled(tree):
@@ -353,7 +350,10 @@ def generate_sg(file_path, name):
 
 
 def _handle_uploaded_file(f, name):
-    bucket.upload_fileobj(f, os.path.relpath(settings.TEMP_DIR+name, settings.AWS_URL))
+    try:
+        bucket.upload_fileobj(f, os.path.relpath(settings.TEMP_DIR+name, settings.AWS_URL))
+    except:
+        TypeError(os.path.relpath(settings.TEMP_DIR+name, settings.AWS_URL))
     """
     with open(os.path.join(settings.TEMP_DIR, name), 'wb+') as destination:
         for chunk in f.chunks():

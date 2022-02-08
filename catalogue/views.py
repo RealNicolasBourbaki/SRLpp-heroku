@@ -351,7 +351,8 @@ def generate_sg(file_path, name):
 
 def _handle_uploaded_file(f, name):
     try:
-        bucket.upload_fileobj(f, os.path.relpath(settings.TEMP_DIR+name, settings.AWS_URL))
+        upload_path = os.path.join(settings.TEMP_DIR, name)
+        bucket.upload_fileobj(f, os.path.relpath(upload_path, settings.AWS_URL))
     except:
         TypeError(os.path.relpath(settings.TEMP_DIR+name, settings.AWS_URL))
     """

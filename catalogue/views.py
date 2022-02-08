@@ -350,7 +350,7 @@ def generate_sg(file_path, name):
 
 
 def _handle_uploaded_file(f, name):
-    s3.Object(bucket, name).put(Body=open('/temp/'+name, 'rb'))
+    bucket.upload_fileobj(f, '/temp/'+name)
     """
     with open(os.path.join(settings.TEMP_DIR, name), 'wb+') as destination:
         for chunk in f.chunks():

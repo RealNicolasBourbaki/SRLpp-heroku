@@ -353,7 +353,7 @@ def generate_sg(file_path, name):
 
 
 def _handle_uploaded_file(f, name):
-    bucket.upload_fileobj(f, 'temp/'+name)
+    bucket.upload_fileobj(f, os.path.relpath(settings.TEMP_DIR+name, settings.AWS_URL))
     """
     with open(os.path.join(settings.TEMP_DIR, name), 'wb+') as destination:
         for chunk in f.chunks():

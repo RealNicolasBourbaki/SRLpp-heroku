@@ -31,7 +31,6 @@
             {% for graph in graphs %}
                 <div>
                     {% get_basename file_path as basename %}
-                    {% with "temp/"|add:basename|add:"/"|add:graph as graph_scource %}
                         <ul>
                             <li>
                                 <h3>Semantic graph {{ forloop.counter }}</h3>

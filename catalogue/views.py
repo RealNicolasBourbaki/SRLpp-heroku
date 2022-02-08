@@ -348,7 +348,7 @@ def generate_sg(file_path, name):
     except:
         graphs = []
     raise TypeError(graphs)
-    return graphs
+    # return graphs
 
 
 def _handle_uploaded_file(f, name):

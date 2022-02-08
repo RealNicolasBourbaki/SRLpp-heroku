@@ -342,7 +342,7 @@ def generate_sg(file_path, name):
     out_path = settings.TEMP_DIR
     make_graphs(tree, file_path, out_path)
     try:
-        graphs = [g.key for g in bucket.objects.all()]
+        graphs = [settings.AWS_URL + g.key for g in bucket.objects.all()]
         # graphs = os.listdir(os.path.join(out_path, name[:-4]+"/"))
 
     except FileNotFoundError:

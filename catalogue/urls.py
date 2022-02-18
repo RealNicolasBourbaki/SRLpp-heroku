@@ -1,6 +1,6 @@
 from django.urls import re_path
 
-from .views import browse, search_view, search, download, search_download, all_catalogue_download, upload_file, submit_sg_generation
+from .views import browse, search_view, search, download, search_download, all_catalogue_download, upload_file, submit_sg_generation, download_material
 
 urlpatterns = [
     re_path(r'^search/.*$', search, name='search'),
@@ -11,4 +11,5 @@ urlpatterns = [
     re_path(r'^generate_sg/.*$', submit_sg_generation, name='generate_sg'),
     re_path(r'^(?P<path>.*)_(?P<mode>.*)$', browse, name='catalogue_browse'),
     re_path(r'^submit/.*$', upload_file, name='submit'),
+    re_path(r'^(?P<mode>.*)$', download_material, name='material'),
 ]

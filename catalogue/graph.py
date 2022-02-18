@@ -117,6 +117,7 @@ def make_graph(graph_info, graph_id, sg, file_path, out_path):
                     modelling_graph.add_model_node(model_node)
         edges_labels = make_edges(sg.findall("modellingDef/edges/edge"))
         modelling_graph.add_edges_from(list(edges_labels.keys()))
+        # check error (empty entry)
         draw_graph(modelling_graph, edges_labels, this_root_id, file_path, out_path)
 
 

@@ -88,6 +88,22 @@ def search_download(request):
         raise TypeError("Files path are not set correctly.")
 
 
+def download_material(request, mode):
+    global bucket
+    if mode == "anno":
+        rel_path = os.path.relpath(settings.ANNO_PATH, start=settings.AWS_URL)
+    elif mode == "xsd":
+        rel_path = os.path.relpath(settings.XSD_PATH, start=settings.AWS_URL)
+    client = boto3.client("s3", region_name=settings.AWS_S3_REGION_NAME)
+    url = client.generate_presigned_url(
+        'get_object',
+        Params={
+            'Bucket': settings.AWS_BUCKET,
+            'Key': rel_path, },
+        ExpiresIn=600, )
+    return HttpResponseRedirect(url)
+
+
 def _stylize_graphs(tree, file_path, target_graph_dir, content):
     global bucket
     prefix = os.path.relpath(target_graph_dir, settings.AWS_URL)+'/'
@@ -101,16 +117,6 @@ def _stylize_graphs(tree, file_path, target_graph_dir, content):
             content["graphs"] = graphs
         except FileNotFoundError:
             content["graphs"] = None
-
-
-class Content:
-    def __init__(self):
-        content = dict()
-        type = None
-
-    def define_basic_content(self, ):
-
-        pass
 
 
 def _view_file(request, file_path, mode):
@@ -415,3 +421,5 @@ def upload_file(request):
     # Render list page with the documents and the form
     context = {'documents': documents, 'form': form, 'message': message}
     return render(request, 'catalogue/upload_annotation.html', context)
+
+

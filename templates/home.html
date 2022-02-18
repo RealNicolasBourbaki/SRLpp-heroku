@@ -21,4 +21,5 @@
     <p> Browse <a href="{% url 'catalogue_browse' path='' mode=''%}"> Published Catalogue </a> as a guest</p>
     <p><a href="{% url 'generate_sg'%}">Generate Semantic Graph</a> as a guest</p>
 {% endif %}
+    <p>Here you can download our <a href="{url 'material' mode='anno' %}">Annotation Manual</a> and <a href="{url 'material' mode='xsd' %}">XML Schema Document</a> </p>
 {% endblock %}

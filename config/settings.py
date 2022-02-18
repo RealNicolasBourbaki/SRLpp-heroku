@@ -171,6 +171,8 @@ MEDIA_URL = AWS_URL + 'media/'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 ALL_ENTRIES_DOWNLOAD = os.environ.get('ALL_ENTRIES_DOWNLOAD')
 TEMP_DIR = os.path.join(CATALOGUE_DIR, 'tmp')
+ANNO_PATH = AWS_URL + 'downloads/Catalog Annotation Documentation_0.2.pdf'
+XSD_PATH = AWS_URL + 'downloads/srlpp_format.xsd'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'

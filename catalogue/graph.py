@@ -132,8 +132,13 @@ def _make_nodes(node_type, node):
             name = _get_cpt_name(node_attribs['id'])
         else:
             name = node_attribs["name"]
+    elif node_type == 'entity_nodes':
+        if "name" in keys:
+            name = node_attribs["name"]
+        elif "value" in keys and "concepts" in keys:
+            name = node_attribs["concepts"] + " " + node_attribs["value"]
     else:
-        name = node_attribs["name"] if "name" in keys else None
+        name = node_attribs["name"] if "name" in keys else "!MISSING, CHECK FORMAT!"
 
     if "root" in keys:
         root = True if node_attribs["root"] == "true" else False

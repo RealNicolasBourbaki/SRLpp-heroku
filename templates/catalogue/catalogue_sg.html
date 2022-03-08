@@ -11,7 +11,6 @@
         <h1>Semantic Graph Generation</h1>
         <form action="{% url "generate_sg" %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ message }}
             <p>{{ form.non_field_errors }}</p>
 
             <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
@@ -28,6 +27,7 @@
 
         <ol>
             <h1>Semantic Graphs Generation Results</h1>
+            {{ message }}
             {% for graph in graphs %}
                 <div>
                     {% get_basename file_path as basename %}

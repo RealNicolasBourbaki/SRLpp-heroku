@@ -379,7 +379,7 @@ def submit_sg_generation(request):
             _handle_uploaded_file(SG_FILE, SG_FILE.name)
             redirect('generate_sg')
         else:
-            message = 'The form is not valid. Please validate your xml file.'
+            message = 'The file format is not valid. Please validate your xml file.'
     else:
         form = DocumentForm()
     if SG_FILE:
@@ -388,7 +388,7 @@ def submit_sg_generation(request):
             graphs = generate_sg(file_path, SG_FILE.name)
         except Exception:
             graphs = None
-            message = 'The form is not valid. Please validate your xml file.'
+            message = 'The file format is not valid. Please validate your xml file.'
     else:
         file_path = None
         graphs = None

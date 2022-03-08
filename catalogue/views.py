@@ -386,7 +386,7 @@ def submit_sg_generation(request):
         file_path = os.path.join(settings.TEMP_DIR, SG_FILE.name)
         try:
             graphs = generate_sg(file_path, SG_FILE.name)
-        except AttributeError:
+        except Exception:
             message = 'The form is not valid. Please validate your xml file.'
     else:
         file_path = None

@@ -387,6 +387,7 @@ def submit_sg_generation(request):
         try:
             graphs = generate_sg(file_path, SG_FILE.name)
         except Exception:
+            graphs = None
             message = 'The form is not valid. Please validate your xml file.'
     else:
         file_path = None

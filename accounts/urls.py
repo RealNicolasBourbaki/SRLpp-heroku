@@ -1,11 +1,12 @@
 from django.urls import path
+from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from .views import signup, activate
 
 
 urlpatterns = [
     path('signup/', signup, name='signup'),
-    path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', activate, name='activate'),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', activate, name='activate'),
     path("password-reset", auth_views.PasswordResetView.as_view(template_name="registration/password_reset.html"),
          name="password_reset"),
     path("password-reset/done/",

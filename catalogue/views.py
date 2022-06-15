@@ -211,7 +211,6 @@ def _get_xml_styled(tree):
 
 def _get_link_target(path):
     link_target = os.path.relpath(path, start=settings.PUBLISHED_CATALOGUE_DIR)
-    raise ValueError(path, settings.PUBLISHED_CATALOGUE_DIR, link_target)
     return link_target
 
 
@@ -338,6 +337,7 @@ def search_view(request, link, query):
     data = _search_files(request, query)
     if link:
         content = _get_xml_content(link)
+        raise ValueError(content)
         data['file_content'] = content
         data['file_path'] = link
     return render(request, 'catalogue/catalogue_view.html', data)

@@ -320,6 +320,7 @@ def _search_files(request, query):
                 'search_results': matched_files_links,
                 'original_query': query
             }
+            raise ValueError(matched_files_links)
         else:
             data = {
                 'no_results': ['Ops, no search results. Click me to go back to catalogue']}

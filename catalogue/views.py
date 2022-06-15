@@ -337,7 +337,10 @@ def search_view(request, link, query):
     data = _search_files(request, query)
     file_path = os.path.join(_get_abs_virtual_root(), link)
     if link:
-        content = _get_xml_content(file_path)
+        try:
+            content = _get_xml_content(file_path)
+        except:
+            raise (ValueError(file_path))
         data['file_content'] = content
         data['file_path'] = file_path
     return render(request, 'catalogue/catalogue_view.html', data)

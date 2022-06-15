@@ -211,6 +211,7 @@ def _get_xml_styled(tree):
 
 def _get_link_target(path):
     link_target = os.path.relpath(path, start=settings.PUBLISHED_CATALOGUE_DIR)
+    raise ValueError(path, settings.PUBLISHED_CATALOGUE_DIR, link_target)
     return link_target
 
 
@@ -308,7 +309,7 @@ def _search_files(request, query):
     SEARCH_DOWNLOAD_GROUP.clear()
     if len(query.strip()) != 0:
         all_files_info = _get_all_files_from_db()
-        all_files_path_name = [(settings.PUBLISHED_CATALOGUE_DIR+'/////'+ p.entry_path, p.entry_name)
+        all_files_path_name = [(settings.PUBLISHED_CATALOGUE_DIR+"/" + p.entry_path, p.entry_name)
                                for p in all_files_info]
         for file_path, file_basename in all_files_path_name:
             if query in file_path.lower():
@@ -320,7 +321,6 @@ def _search_files(request, query):
                 'search_results': matched_files_links,
                 'original_query': query
             }
-            raise ValueError(matched_files_links)
         else:
             data = {
                 'no_results': ['Ops, no search results. Click me to go back to catalogue']}

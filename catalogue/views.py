@@ -313,7 +313,7 @@ def _search_files(request, query):
         for file_path, file_basename in all_files_path_name:
             if query in file_path.lower():
                 matched_files_links.append(
-                    (_get_link_target(file_path), file_basename))
+                    (file_path, file_basename))
                 SEARCH_DOWNLOAD_GROUP.append(file_path)
         if len(matched_files_links) != 0:
             data = {

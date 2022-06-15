@@ -303,13 +303,12 @@ def browse(request, path, mode):
 
 
 def _search_files(request, query):
-    from urllib.parse import urljoin
     matched_files_links = []
     global SEARCH_DOWNLOAD_GROUP
     SEARCH_DOWNLOAD_GROUP.clear()
     if len(query.strip()) != 0:
         all_files_info = _get_all_files_from_db()
-        all_files_path_name = [(settings.PUBLISHED_CATALOGUE_DIR+"/" + p.entry_path, p.entry_name)
+        all_files_path_name = [(p.entry_path, p.entry_name)
                                for p in all_files_info]
         for file_path, file_basename in all_files_path_name:
             if query in file_path.lower():

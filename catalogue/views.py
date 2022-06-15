@@ -337,7 +337,6 @@ def search_view(request, link, query):
     data = _search_files(request, query)
     if link:
         content = _get_xml_content(link)
-        raise ValueError(content)
         data['file_content'] = content
         data['file_path'] = link
         data['mode'] = "text"

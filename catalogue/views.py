@@ -340,6 +340,7 @@ def search_view(request, link, query):
         raise ValueError(content)
         data['file_content'] = content
         data['file_path'] = link
+        data['mode'] = "text"
     return render(request, 'catalogue/catalogue_view.html', data)
 
 

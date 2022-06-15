@@ -319,7 +319,7 @@ def _search_files(request, query):
                 'search_results': matched_files_links,
                 'original_query': query
             }
-            raise ValueError(matched_files_links)
+            raise ValueError(matched_files_links, settings.PUBLISHED_CATALOGUE_DIR)
         else:
             data = {
                 'no_results': ['Ops, no search results. Click me to go back to catalogue']}

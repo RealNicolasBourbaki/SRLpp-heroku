@@ -29,7 +29,7 @@
                             {% get_link_target file_path as filename %}
                             {% ifequal mode "text" %}
                                 {% if search_results %}
-                                    <a>here</a>
+                                    <a>{{ filename }}</a>
                                     <button type="submit" name="stylize" onclick="location.href='{% url 'catalogue_browse' filename "style" %}'">Pretty print view</button>
                                 {% else %}
                                     <a>there</a>

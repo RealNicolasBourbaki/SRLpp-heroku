@@ -28,8 +28,15 @@
                         {% if file_path %}
                             {% get_link_target file_path as filename %}
                             {% ifequal mode "text" %}
-                                <button type="submit" name="stylize" onclick="location.href='{% url 'catalogue_browse' filename "style" %}'">Pretty print view</button>
-                            {% else %}
+                                {% if search_results %}
+                                    <button type="submit" name="stylize" onclick="location.href='{% url 'search_results' link=filename query=original_query mode="style" %}'">Pretty print view</button>
+                                {% else %}
+                                    <button type="submit" name="stylize" onclick="location.href='{% url 'catalogue_browse' filename "style" %}'">Pretty print view</button>
+                                {% endif %}
+                        {% else %}
+                            {% if search_results %}
+                                    <button type="submit" name="textize" onclick="location.href='{% url 'search_results' link=filename query=original_query mode="text" %}'">Plain text view</button>
+                                {% else %}
                                 {% ifequal mode "style" %}
                                     <button type="submit" name="textize" onclick="location.href='{% url 'catalogue_browse' filename "text" %}'">Plain text view</button>
                                 {% endifequal %}
@@ -62,7 +69,7 @@
                                 {% endfor %}
 
                                 {% for link_target, basename in search_results %}
-                                    <li><a href="{% url 'search_results' link=link_target query=original_query %}"> {{ basename }}</a></li>
+                                    <li><a href="{% url 'search_results' link=link_target query=original_query mode="text" %}"> {{ basename }}</a></li>
                                 {% endfor %}
 
                                 {% if no_results %}

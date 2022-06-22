@@ -4,7 +4,7 @@ from .views import browse, search_view, search, download, search_download, all_c
 
 urlpatterns = [
     re_path(r'^search/.*$', search, name='search'),
-    re_path(r'^search_results/(?P<link>.*)_(?P<query>.*)$', search_view, name='search_results'),
+    re_path(r'^search_results/(?P<link>.*)_(?P<query>.*)_(?P<mode>.*)$', search_view, name='search_results'),
     re_path(r'^download/(?P<path>.*)$', download, name='download_file'),
     re_path(r'^search_download/*$', search_download, name='search_download'),
     re_path(r'^catalogue_download/.*$', all_catalogue_download, name='catalogue_download'),

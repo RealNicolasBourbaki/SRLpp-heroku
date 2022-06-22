@@ -271,6 +271,7 @@ def _list_directory(request, status='published'):
                 'sub_dirs': all_dir_info,
             }
             return data
+
     raise PermissionError
 
 
@@ -333,13 +334,13 @@ def search(request):
     return render(request, 'catalogue/catalogue_view.html', data)
 
 
-def search_view(request, link, query):
+def search_view(request, link, query, mode="text"):
     data = _search_files(request, query)
     if link:
         content = _get_xml_content(link)
         data['file_content'] = content
         data['file_path'] = link
-        data['mode'] = "text"
+        data['mode'] = mode
     return render(request, 'catalogue/catalogue_view.html', data)
 
 

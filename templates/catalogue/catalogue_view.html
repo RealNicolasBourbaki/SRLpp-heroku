@@ -40,7 +40,7 @@
                                 {% ifequal mode "style" %}
                                     <button type="submit" name="textize" onclick="location.href='{% url 'catalogue_browse' filename "text" %}'">Plain text view</button>
                                 {% endifequal %}
-                            {% endifequal %}
+                            {% endif %}
                         {% endif %}
                     </div>
                 </td>

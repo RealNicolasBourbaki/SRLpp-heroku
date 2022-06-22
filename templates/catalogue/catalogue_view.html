@@ -32,6 +32,7 @@
                                     <a>here</a>
                                     <button type="submit" name="stylize" onclick="location.href='{% url 'search_results' filename original_query "style" %}'">Pretty print view</button>
                                 {% else %}
+                                    <a>there</a>
                                     <button type="submit" name="stylize" onclick="location.href='{% url 'catalogue_browse' filename "style" %}'">Pretty print view</button>
                                 {% endif %}
                             {% endifequal %}

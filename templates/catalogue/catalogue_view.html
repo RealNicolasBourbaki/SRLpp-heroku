@@ -33,14 +33,15 @@
                                 {% else %}
                                     <button type="submit" name="stylize" onclick="location.href='{% url 'catalogue_browse' filename "style" %}'">Pretty print view</button>
                                 {% endif %}
-                        {% else %}
-                            {% if search_results %}
+                            {% endifequal %}
+
+                            {% ifequal mode "style" %}
+                                {% if search_results %}
                                     <button type="submit" name="textize" onclick="location.href='{% url 'search_results' link=filename query=original_query mode="text" %}'">Plain text view</button>
                                 {% else %}
-                                {% ifequal mode "style" %}
                                     <button type="submit" name="textize" onclick="location.href='{% url 'catalogue_browse' filename "text" %}'">Plain text view</button>
-                                {% endifequal %}
-                            {% endif %}
+                                {% endif %}
+                            {% endifequal %}
                         {% endif %}
                     </div>
                 </td>
